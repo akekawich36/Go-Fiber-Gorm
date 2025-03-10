@@ -1,18 +1,19 @@
-package configs
+package database
 
 import (
 	"fmt"
 	"log"
 	"time"
 
+	"github.com/akekawich36/go-authen/configs"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
 
-func DatabaseConnect() {
-	config, err := LoadConfig()
+func DatabaseConnect() (*gorm.DB, error) {
+	config, err := configs.LoadConfig()
 	if err != nil {
 		log.Fatal("Error loading config")
 	}
@@ -41,4 +42,5 @@ func DatabaseConnect() {
 	sqlDB.SetConnMaxLifetime(30 * time.Minute)
 
 	log.Println("✅ Connected to PostgreSQL")
+	return DB, nil
 }
